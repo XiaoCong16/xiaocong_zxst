@@ -27,7 +27,7 @@ public class CourseCategoryServiceImpl extends ServiceImpl<CourseCategoryMapper,
     public List<CourseCategoryTreeDto> tree_nodes() {
         List<CourseCategory> list = this.list();
         List<CourseCategory> parentNodes = list.stream().filter(item -> {
-            return item.getParentid().equals("1");
+            return item.getParentid().equals("1") && item.getIsShow() == 1;
         }).collect(Collectors.toList());
         List<CourseCategoryTreeDto> result = parentNodes.stream().map(item -> {
             List<CourseCategoryTreeDto> childrenTreeNodes = childrenTreeNodes(item, list);
@@ -42,7 +42,7 @@ public class CourseCategoryServiceImpl extends ServiceImpl<CourseCategoryMapper,
     private List<CourseCategoryTreeDto> childrenTreeNodes(CourseCategory parentNode, List<CourseCategory> courseCategoryList) {
         return list().stream()
                 .filter(
-                        item -> item.getParentid().equals(parentNode.getId())
+                        item -> item.getParentid().equals(parentNode.getId()) && item.getIsShow() == 1
                 ).map(item -> {
                     CourseCategoryTreeDto courseCategoryTreeDto = new CourseCategoryTreeDto();
                     BeanUtils.copyProperties(item, courseCategoryTreeDto);

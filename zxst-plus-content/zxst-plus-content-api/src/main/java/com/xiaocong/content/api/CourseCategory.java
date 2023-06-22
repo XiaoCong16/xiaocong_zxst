@@ -1,6 +1,5 @@
 package com.xiaocong.content.api;
 
-import com.xiaocong.base.model.PageResult;
 import com.xiaocong.content.model.dto.CourseCategoryTreeDto;
 import com.xiaocong.content.service.CourseCategoryService;
 import lombok.extern.slf4j.Slf4j;

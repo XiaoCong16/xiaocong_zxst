@@ -2,6 +2,8 @@ package com.xiaocong.content.api;
 
 import com.xiaocong.base.model.PageParams;
 import com.xiaocong.base.model.PageResult;
+import com.xiaocong.content.model.dto.AddCourseDto;
+import com.xiaocong.content.model.dto.CourseBaseInfoDto;
 import com.xiaocong.content.model.dto.CourseCategoryTreeDto;
 import com.xiaocong.content.model.dto.QueryCourseParamsDto;
 import com.xiaocong.content.model.po.CourseBase;
@@ -33,8 +35,13 @@ public class CourseBaseInfoController {
         return list;
     }
 
-
-
+    @ApiOperation("新增课程信息")
+    @PostMapping("/course")
+    public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto) {
+        Long companyId = 1L;
+        CourseBaseInfoDto courseBaseInfoDto = courseBaseService.createCourseBase(companyId, addCourseDto);
+        return courseBaseInfoDto;
+    }
 
 
 }
