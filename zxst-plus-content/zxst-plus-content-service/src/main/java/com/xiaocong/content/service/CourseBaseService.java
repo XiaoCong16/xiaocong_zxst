@@ -3,10 +3,7 @@ package com.xiaocong.content.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaocong.base.model.PageParams;
 import com.xiaocong.base.model.PageResult;
-import com.xiaocong.content.model.dto.AddCourseDto;
-import com.xiaocong.content.model.dto.CourseBaseInfoDto;
-import com.xiaocong.content.model.dto.CourseCategoryTreeDto;
-import com.xiaocong.content.model.dto.QueryCourseParamsDto;
+import com.xiaocong.content.model.dto.*;
 import com.xiaocong.content.model.po.CourseBase;
 
 /**
@@ -21,4 +18,19 @@ public interface CourseBaseService extends IService<CourseBase> {
     PageResult<CourseBase> list(PageParams pageParams, QueryCourseParamsDto queryCourseParams);
 
     CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto addCourseDto);
+
+    /**
+     * 根据课程id查询课程信息
+     * @param courseId 课程id
+     * @return
+     */
+    CourseBaseInfoDto getCourseBaseInfo(Long courseId);
+
+    /**
+     * 修改课程信息
+     * @param companyId
+     * @param addCourseDto
+     * @return
+     */
+    CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto addCourseDto);
 }

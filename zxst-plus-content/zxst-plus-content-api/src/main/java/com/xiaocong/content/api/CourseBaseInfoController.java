@@ -1,24 +1,20 @@
 package com.xiaocong.content.api;
 
+import com.xiaocong.base.exception.ValidationGroups;
 import com.xiaocong.base.model.PageParams;
 import com.xiaocong.base.model.PageResult;
-import com.xiaocong.content.model.dto.AddCourseDto;
-import com.xiaocong.content.model.dto.CourseBaseInfoDto;
-import com.xiaocong.content.model.dto.CourseCategoryTreeDto;
-import com.xiaocong.content.model.dto.QueryCourseParamsDto;
+import com.xiaocong.content.model.dto.*;
 import com.xiaocong.content.model.po.CourseBase;
 import com.xiaocong.content.service.CourseBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author Mr.M
- * @version 1.0
- * @description TODO
- * @date 2023/2/11 15:44
+ *
  */
 @Api(value = "课程信息管理接口", tags = "课程信息管理接口")
 @RestController
@@ -37,11 +33,26 @@ public class CourseBaseInfoController {
 
     @ApiOperation("新增课程信息")
     @PostMapping("/course")
-    public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto) {
+    public CourseBaseInfoDto createCourseBase(@RequestBody @Validated(ValidationGroups.Insert.class) AddCourseDto addCourseDto) {
         Long companyId = 1L;
         CourseBaseInfoDto courseBaseInfoDto = courseBaseService.createCourseBase(companyId, addCourseDto);
         return courseBaseInfoDto;
     }
 
+    @ApiOperation("根据id查询课程接口")
+    @GetMapping("/course/{courseId}")
+    public CourseBaseInfoDto getCourseById(@PathVariable("courseId") Long courseId) {
+        CourseBaseInfoDto result = courseBaseService.getCourseBaseInfo(courseId);
+        return result;
+    }
+
+
+    @ApiOperation("修改课程信息")
+    @PutMapping("/course")
+    public CourseBaseInfoDto modifyCourseBase(@RequestBody @Validated(ValidationGroups.Update.class) EditCourseDto addCourseDto) {
+        Long companyId = 1L;
+        CourseBaseInfoDto courseBaseInfoDto = courseBaseService.updateCourseBase(companyId, addCourseDto);
+        return courseBaseInfoDto;
+    }
 
 }

@@ -3,16 +3,14 @@ package com.xiaocong.content.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sun.org.apache.bcel.internal.generic.I2F;
 import com.xiaocong.base.exception.zxstException;
 import com.xiaocong.base.model.PageParams;
 import com.xiaocong.base.model.PageResult;
 import com.xiaocong.content.mapper.CourseBaseMapper;
 import com.xiaocong.content.mapper.CourseCategoryMapper;
 import com.xiaocong.content.mapper.CourseMarketMapper;
-import com.xiaocong.content.model.dto.AddCourseDto;
-import com.xiaocong.content.model.dto.CourseBaseInfoDto;
-import com.xiaocong.content.model.dto.CourseCategoryTreeDto;
-import com.xiaocong.content.model.dto.QueryCourseParamsDto;
+import com.xiaocong.content.model.dto.*;
 import com.xiaocong.content.model.po.CourseBase;
 import com.xiaocong.content.model.po.CourseCategory;
 import com.xiaocong.content.model.po.CourseMarket;
@@ -100,6 +98,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         return courseBaseInfo;
     }
 
+
     private boolean saveCourseMarket(CourseMarket courseMarket) {
         String charge = courseMarket.getCharge();
 //        参数合法性校验
@@ -129,7 +128,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 
 
     //    查询课程信息
-    private CourseBaseInfoDto getCourseBaseInfo(long courseId) {
+    public CourseBaseInfoDto getCourseBaseInfo(Long courseId) {
         CourseBase courseBase = baseMapper.selectById(courseId);
         if (courseBase == null) {
             return null;
@@ -139,7 +138,10 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 //        组装在一起
         CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
         BeanUtils.copyProperties(courseBase, courseBaseInfoDto);
-        BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
+        if (courseMarket != null){
+            BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
+        }
+
 //        查询大分类的名称
         QueryWrapper<CourseCategory> courseCategoryQueryWrapper = new QueryWrapper<>();
         courseCategoryQueryWrapper.eq("id", courseBase.getMt());
@@ -153,5 +155,27 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 //        设置小分类的名称
         courseBaseInfoDto.setStName(courseCategory2.getName());
         return courseBaseInfoDto;
+    }
+
+    @Override
+    @Transactional
+    public CourseBaseInfoDto updateCourseBase(Long companyId, EditCourseDto addCourseDto) {
+        CourseBase courseBase = this.getById(addCourseDto.getId());
+        if (courseBase == null) {
+            zxstException.cast("课程不存在");
+        }
+
+        if (!companyId.equals(courseBase.getCompanyId())) {
+            zxstException.cast("本机构只能修改本机构下的课程");
+        }
+
+        BeanUtils.copyProperties(addCourseDto, courseBase);
+        courseBase.setChangeDate(LocalDateTime.now());
+        boolean b = this.updateById(courseBase);
+        if (!b){
+            zxstException.cast("修改课程失败");
+        }
+        CourseBaseInfoDto courseBaseInfo = this.getCourseBaseInfo(addCourseDto.getId());
+        return courseBaseInfo;
     }
 }
