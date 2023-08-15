@@ -45,7 +45,10 @@ public class Teachplan implements Serializable {
     /**
      * 开始直播时间
      */
-    private LocalDateTime startTime;
+
+
+    @TableField("start_time")
+    private LocalDateTime stratTime;
 
     /**
      * 直播结束时间

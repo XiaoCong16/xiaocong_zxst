@@ -50,7 +50,7 @@ public class CourseBaseInfoController {
     @ApiOperation("修改课程信息")
     @PutMapping("/course")
     public CourseBaseInfoDto modifyCourseBase(@RequestBody @Validated(ValidationGroups.Update.class) EditCourseDto addCourseDto) {
-        Long companyId = 1L;
+        Long companyId = 1232141425L;
         CourseBaseInfoDto courseBaseInfoDto = courseBaseService.updateCourseBase(companyId, addCourseDto);
         return courseBaseInfoDto;
     }

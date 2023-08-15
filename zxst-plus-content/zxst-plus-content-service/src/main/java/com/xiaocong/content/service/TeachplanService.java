@@ -23,4 +23,10 @@ public interface TeachplanService extends IService<Teachplan> {
      * @param teachplan
      */
     public void saveTeachplan(SaveTeachPlanDto teachplan);
+
+    void deleteTeachPlan(Long id);
+
+    void moveDown(Long id);
+
+    void moveUp(Long id);
 }
