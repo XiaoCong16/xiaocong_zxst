@@ -2,10 +2,7 @@
 <Configuration monitorInterval="180" packages="">
     <properties>
         <property name="logdir">logs</property>
-<!--        <property name="PATTERN">%highlight{%date{YYYY-MM-dd HH:mm:ss,SSS} %level [%thread][%file:%line] - %msg%n%throwable}</property>-->
-<!--        <property name="PATTERN" value="%highlight{%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36}  - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}"/>-->
-        <property name="PATTERN">%highlight{%date{YYYY-MM-dd HH:mm:ss,SSS} %level [%thread][%file:%line] - %msg%n%throwable}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}</property>
-
+        <property name="PATTERN">%date{YYYY-MM-dd HH:mm:ss,SSS} %level [%thread][%file:%line] - %msg%n%throwable</property>
     </properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
@@ -29,20 +26,20 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingFile>
-
+        
         <!--异步appender-->
          <Async name="AsyncAppender" includeLocation="true">
             <AppenderRef ref="ErrorAppender"/>
             <AppenderRef ref="DebugAppender"/>
         </Async>
     </Appenders>
-
+    
     <Loggers>
-         <!--过滤掉spring和mybatis的一些无用的debug信息
+         <!--过滤掉spring和mybatis的一些无用的debug信息-->
         <logger name="org.springframework" level="INFO">
         </logger>
         <logger name="org.mybatis" level="INFO">
-        </logger>-->
+        </logger>
         <logger name="cn.itcast.wanxinp2p.consumer.mapper" level="DEBUG">
         </logger>
 
@@ -52,13 +49,13 @@
         </logger>
         <logger name="com.netflix.discovery" level="INFO">
         </logger>
-
+        
         <logger name="RocketmqCommon"  level="INFO" >
 		</logger>
-
+		
 		<logger name="RocketmqRemoting" level="INFO"  >
 		</logger>
-
+		
 		<logger name="RocketmqClient" level="WARN">
 		</logger>
 
@@ -70,7 +67,7 @@
 
         <logger name="org.dromara.hmily.bonuspoint" level="WARN">
         </logger>
-
+		
         <!--OFF   0-->
         <!--FATAL   100-->
         <!--ERROR   200-->

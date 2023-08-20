@@ -1,0 +1,30 @@
+#微服务配置
+spring:
+  application:
+    name: content-service
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://175.178.151.17:3306/xiaocong_zxst?serverTimezone=UTC&userUnicode=true&useSSL=false
+#    username: root
+#    password: a123
+  cloud:
+    nacos:
+      server-addr: 175.178.151.17:8848
+      config:
+        namespace: zxst-dev
+        group: xiaocong_zxst
+        file-extension: yaml
+        refresh-enabled: true
+  profiles:
+    active: dev #环境名
+
+# 日志文件配置路径
+logging:
+  config: classpath:log4j2-dev.xml
+  level:
+    com.xiaocong: debug
+    root: info
+#
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

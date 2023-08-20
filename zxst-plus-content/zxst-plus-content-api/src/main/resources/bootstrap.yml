@@ -6,22 +6,47 @@ server:
 spring:
   application:
     name: content-api
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://175.178.151.17:3306/xiaocong_zxst?serverTimezone=UTC&userUnicode=true&useSSL=false
-    username: root
-    password: a123
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://175.178.151.17:3306/xiaocong_zxst?serverTimezone=UTC&userUnicode=true&useSSL=false
+  #    username: root
+  #    password: a123
+  cloud:
+    nacos:
+      server-addr: 175.178.151.17:8848
+      discovery:
+        namespace: zxst-dev
+        group: xiaocong_zxst
+      config:
+        namespace: zxst-dev
+        group: xiaocong_zxst
+        file-extension: yaml
+        refresh-enabled: true
+        extension-configs:
+          - data-id: content-service-${spring.profiles.active}.yaml
+            group: xiaocong_zxst
+            refresh: true
+        shared-configs:
+          - data-id: swagger-${spring.profiles.active}.yaml
+            group: zxst-plus-common
+            refresh: true
+          - data-id: logging-${spring.profiles.active}.yaml
+            group: zxst-plus-common
+            refresh: true
+  profiles:
+    active: dev #环境名
 # 日志文件配置路径
 #logging:
 #  config: classpath:log4j2-dev.xml
+#  level:
+#    com.xiaocong: debug
+#    root: info
 
-swagger:
-  title: "学成在线内容管理系统"
-  description: "内容系统管理系统对课程相关信息进行管理"
-  base-package: com.xiaocong.content
-  enabled: true
-  version: 1.0.0
+#swagger:
+#  title: "学成在线内容管理系统"
+#  description: "内容系统管理系统对课程相关信息进行管理"
+#  base-package: com.xiaocong.content
+#  enabled: true
+#  version: 1.0.0
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

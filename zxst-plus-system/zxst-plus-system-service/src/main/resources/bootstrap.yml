@@ -1,0 +1,18 @@
+server:
+  servlet:
+    context-path: /system
+  port: 63110
+#微服务配置
+spring:
+  application:
+    name: system-service
+  cloud:
+    nacos:
+      server-addr: 175.178.151.17:8848
+      config:
+        namespace: zxst-dev
+        group: xiaocong_zxst
+        file-extension: yaml
+        refresh-enabled: true
+  profiles:
+    active: dev #环境名

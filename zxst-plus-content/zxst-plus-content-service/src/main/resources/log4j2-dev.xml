@@ -2,8 +2,7 @@
 <Configuration monitorInterval="180" packages="">
     <properties>
         <property name="logdir">logs</property>
-<!--        <property name="PATTERN">%highlight{%date{YYYY-MM-dd HH:mm:ss,SSS} %level [%thread][%file:%line] - %msg%n%throwable}</property>-->
-<!--        <property name="PATTERN" value="%highlight{%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36}  - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}"/>-->
+<!--        <property name="PATTERN">%date{YYYY-MM-dd HH:mm:ss,SSS} %level [%thread][%file:%line] - %msg%n%throwable</property>-->
         <property name="PATTERN">%highlight{%date{YYYY-MM-dd HH:mm:ss,SSS} %level [%thread][%file:%line] - %msg%n%throwable}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}</property>
 
     </properties>

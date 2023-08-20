@@ -7,13 +7,9 @@ import com.sun.org.apache.bcel.internal.generic.I2F;
 import com.xiaocong.base.exception.zxstException;
 import com.xiaocong.base.model.PageParams;
 import com.xiaocong.base.model.PageResult;
-import com.xiaocong.content.mapper.CourseBaseMapper;
-import com.xiaocong.content.mapper.CourseCategoryMapper;
-import com.xiaocong.content.mapper.CourseMarketMapper;
+import com.xiaocong.content.mapper.*;
 import com.xiaocong.content.model.dto.*;
-import com.xiaocong.content.model.po.CourseBase;
-import com.xiaocong.content.model.po.CourseCategory;
-import com.xiaocong.content.model.po.CourseMarket;
+import com.xiaocong.content.model.po.*;
 import com.xiaocong.content.service.CourseBaseService;
 import com.xiaocong.content.service.CourseMarketService;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +38,12 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 
     @Autowired
     CourseCategoryMapper courseCategoryMapper;
+
+    @Autowired
+    TeachplanMapper teachplanMapper;
+
+    @Autowired
+    CourseTeacherMapper courseTeacherMapper;
 
     @Override
     public PageResult<CourseBase> list(PageParams pageParams, QueryCourseParamsDto queryCourseParams) {
@@ -138,7 +140,7 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
 //        组装在一起
         CourseBaseInfoDto courseBaseInfoDto = new CourseBaseInfoDto();
         BeanUtils.copyProperties(courseBase, courseBaseInfoDto);
-        if (courseMarket != null){
+        if (courseMarket != null) {
             BeanUtils.copyProperties(courseMarket, courseBaseInfoDto);
         }
 
@@ -172,10 +174,30 @@ public class CourseBaseServiceImpl extends ServiceImpl<CourseBaseMapper, CourseB
         BeanUtils.copyProperties(addCourseDto, courseBase);
         courseBase.setChangeDate(LocalDateTime.now());
         boolean b = this.updateById(courseBase);
-        if (!b){
+        if (!b) {
             zxstException.cast("修改课程失败");
         }
         CourseBaseInfoDto courseBaseInfo = this.getCourseBaseInfo(addCourseDto.getId());
         return courseBaseInfo;
+    }
+
+    @Override
+    @Transactional
+    public void removeCourse(Long courseId) {
+        CourseBase courseBase = this.getById(courseId);
+        String auditStatus = courseBase.getAuditStatus();
+        if (!auditStatus.equals("202002")) {
+            throw new zxstException("删除失败");
+        }
+//        删除课程基本信息
+        this.removeById(courseId);
+//        删除课程营销信息
+        courseMarketMapper.deleteById(courseId);
+//        删除课程计划
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("course_id", courseId);
+        teachplanMapper.delete(queryWrapper);
+//        删除课程教师信息
+        courseTeacherMapper.delete(queryWrapper);
     }
 }
