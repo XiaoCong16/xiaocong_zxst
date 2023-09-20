@@ -1,5 +1,6 @@
 package com.xiaocong.content.api;
 
+import com.xiaocong.content.model.dto.BindTeachplanMediaDto;
 import com.xiaocong.content.model.dto.SaveTeachPlanDto;
 import com.xiaocong.content.model.dto.TeachplanDto;
 import com.xiaocong.content.service.TeachplanService;
@@ -48,6 +49,12 @@ public class TeachplanController {
     @PostMapping("/teachplan/moveup/{id}")
     public void moveUp(@PathVariable("id") Long id) {
         teachplanService.moveUp(id);
+    }
+
+    @ApiOperation(value = "课程计划和媒资信息绑定")
+    @PostMapping("/teachplan/association/media")
+    public void associationMedia(@RequestBody BindTeachplanMediaDto bindTeachplanMediaDto) {
+        teachplanService.associationMedia(bindTeachplanMediaDto);
     }
 
 

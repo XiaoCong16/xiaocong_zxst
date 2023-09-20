@@ -23,6 +23,7 @@ logging:
   config: classpath:log4j2-dev.xml
   level:
     com.xiaocong: debug
+    com.alibaba.nacos: info
     root: info
 #
 #mybatis-plus:

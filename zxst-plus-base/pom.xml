@@ -6,6 +6,7 @@
     <artifactId>zxst-plus-base</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>zxst-plus-base</name>
+    <packaging>jar</packaging>
     <description>zxst-plus-base</description>
     <parent>
         <groupId>com.xiaocong</groupId>

@@ -13,4 +13,6 @@ import com.xiaocong.content.model.po.TeachplanMedia;
  */
 public interface TeachplanMediaService extends IService<TeachplanMedia> {
 
+
+
 }
