@@ -16,11 +16,11 @@ public class zxstException extends RuntimeException {
     }
 
     public static void cast(String message) {
-        throw new RuntimeException(message);
+        throw new zxstException(message);
     }
 
     public static void cast(CommonError error) {
-        throw new RuntimeException(error.getErrMessage());
+        throw new zxstException(error.getErrMessage());
     }
 
 }

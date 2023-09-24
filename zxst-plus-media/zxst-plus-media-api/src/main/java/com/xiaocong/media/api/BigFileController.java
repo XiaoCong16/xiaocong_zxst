@@ -48,7 +48,8 @@ public class BigFileController {
     public RestResponse uploadchunk(@RequestParam("file") MultipartFile file,
                                     @RequestParam("fileMd5") String fileMd5,
                                     @RequestParam("chunk") int chunk) throws Exception {
-        File tempFile = File.createTempFile(fileMd5, "tmp");
+        System.out.println(fileMd5);
+        File tempFile = File.createTempFile(fileMd5, ".tmp");
         file.transferTo(tempFile);
         return mediaFileService.uploadChunk(fileMd5, chunk, tempFile.getAbsolutePath());
     }

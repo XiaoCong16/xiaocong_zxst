@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author Mr.M
@@ -14,6 +16,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableSwagger2Doc
 @SpringBootApplication
+@EnableFeignClients(basePackages = "com.xiaocong.content.service.feign")
+@ComponentScan(basePackages = "com.xiaocong")
 public class ContentApplication {
     public static void main(String[] args) {
         SpringApplication.run(ContentApplication.class, args);

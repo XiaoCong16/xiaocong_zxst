@@ -1,5 +1,6 @@
 package com.xiaocong.content.api;
 
+import com.xiaocong.base.model.RestResponse;
 import com.xiaocong.content.model.dto.BindTeachplanMediaDto;
 import com.xiaocong.content.model.dto.SaveTeachPlanDto;
 import com.xiaocong.content.model.dto.TeachplanDto;
@@ -55,6 +56,11 @@ public class TeachplanController {
     @PostMapping("/teachplan/association/media")
     public void associationMedia(@RequestBody BindTeachplanMediaDto bindTeachplanMediaDto) {
         teachplanService.associationMedia(bindTeachplanMediaDto);
+    }
+
+    @DeleteMapping("/teachplan/association/media/{teachPlanId}/{mediaId}")
+    public RestResponse removeTeachPlanMedia(@PathVariable("teachPlanId")Long teachPlanId,@PathVariable("mediaId")String mediaId){
+        return teachplanService.removeTeachPlanMedia(teachPlanId,mediaId);
     }
 
 

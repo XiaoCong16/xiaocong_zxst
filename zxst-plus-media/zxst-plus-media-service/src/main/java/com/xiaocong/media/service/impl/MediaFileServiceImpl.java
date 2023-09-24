@@ -1,6 +1,7 @@
 package com.xiaocong.media.service.impl;
 
 import com.alibaba.nacos.common.utils.IoUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.j256.simplemagic.ContentInfo;
@@ -72,16 +73,19 @@ public class MediaFileServiceImpl implements MediaFileService {
     String bucket_video;
 
     @Override
-    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath) {
+    public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath, String objectName) {
 //        将文件上传到minio
 //        文件类型
         String filename = uploadFileParamsDto.getFilename();
         String extension = filename.substring(filename.indexOf("."));
         String mimeType = getMimeType(extension);
-//        文件路径格式
-        String defaultFolderPath = getDefaultFolderPath();
         String fileMd5 = getFileMd5(new File(localFilePath));
-        String objectName = defaultFolderPath + fileMd5 + extension;
+//        文件路径格式
+        if (StringUtils.isEmpty(objectName)) {
+//            子目录
+            String defaultFolderPath = getDefaultFolderPath();
+            objectName = defaultFolderPath + fileMd5 + extension;
+        }
         boolean result = addFileToMinIo(localFilePath, mimeType, bucket_mediafiles, objectName);
         if (!result) {
             zxstException.cast("上传文件失败");
@@ -126,6 +130,12 @@ public class MediaFileServiceImpl implements MediaFileService {
             log.error("上传文件出错，bucket:{},objectName:{},错误信息:{}", bucket, objectName, e.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public MediaFiles getFileById(String mediaId) {
+        MediaFiles mediaFiles = mediaFilesMapper.selectById(mediaId);
+        return mediaFiles;
     }
 
     //    获取文件默认存储路径为yyyy/mm/dd
@@ -221,8 +231,7 @@ public class MediaFileServiceImpl implements MediaFileService {
     }
 
     @Override
-    public PageResult<MediaFiles> queryMediaFiels(Long companyId, PageParams pageParams, QueryMediaParamsDto
-            queryMediaParamsDto) {
+    public PageResult<MediaFiles> queryMediaFiels(Long companyId, PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto) {
 
         //构建查询条件对象
         LambdaQueryWrapper<MediaFiles> queryWrapper = new LambdaQueryWrapper<>();
@@ -286,9 +295,9 @@ public class MediaFileServiceImpl implements MediaFileService {
 
     @Override
     public RestResponse uploadChunk(String fileMd5, int chunk, String localChunkFilePath) {
-        String mimeType = "application/octet-stream";
+        String mimeType = getMimeType(null);
         String chunkFileFolderPath = getChunkFileFolderPath(fileMd5) + chunk;
-
+        System.out.println(mimeType);
 //            UploadObjectArgs uploadObjectArgs = UploadObjectArgs.builder()
 //                    .bucket(bucket_video)
 //                    .filename(localChunkFilePath)

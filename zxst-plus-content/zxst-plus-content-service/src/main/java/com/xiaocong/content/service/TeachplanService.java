@@ -1,6 +1,7 @@
 package com.xiaocong.content.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xiaocong.base.model.RestResponse;
 import com.xiaocong.content.model.dto.BindTeachplanMediaDto;
 import com.xiaocong.content.model.dto.SaveTeachPlanDto;
 import com.xiaocong.content.model.dto.TeachplanDto;
@@ -35,10 +36,11 @@ public interface TeachplanService extends IService<Teachplan> {
     /**
      * @description 教学计划绑定媒资
      * @param bindTeachplanMediaDto
-     * @return com.xuecheng.content.model.po.TeachplanMedia
+     * @return com.xiaocong.content.model.po.TeachplanMedia
      * @author Mr.M
      * @date
      */
     public TeachplanMedia associationMedia(BindTeachplanMediaDto bindTeachplanMediaDto);
 
+    RestResponse removeTeachPlanMedia(Long teachPlanId, String mediaId);
 }

@@ -30,7 +30,7 @@ public interface MediaFileService {
  public PageResult<MediaFiles> queryMediaFiels(Long companyId,PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto);
 
 
-    UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String filePath);
+    UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String filePath,String objectName);
 
     public MediaFiles addMediaFilesToDb(Long companyId,
                                         String fileMd5,
@@ -41,7 +41,7 @@ public interface MediaFileService {
     /**
      * @description 检查文件是否存在
      * @param fileMd5 文件的md5
-     * @return com.xuecheng.base.model.RestResponse<java.lang.Boolean> false不存在，true存在
+     * @return com.xiaocong.base.model.RestResponse<java.lang.Boolean> false不存在，true存在
      * @author Mr.M
      * @date 2022/9/13 15:38
      */
@@ -51,7 +51,7 @@ public interface MediaFileService {
      * @description 检查分块是否存在
      * @param fileMd5  文件的md5
      * @param chunkIndex  分块序号
-     * @return com.xuecheng.base.model.RestResponse<java.lang.Boolean> false不存在，true存在
+     * @return com.xiaocong.base.model.RestResponse<java.lang.Boolean> false不存在，true存在
      * @author Mr.M
      * @date 2022/9/13 15:39
      */
@@ -63,7 +63,7 @@ public interface MediaFileService {
     * @param fileMd5  文件md5
     * @param chunk  分块序号
     * @param localChunkFilePath  分块文件本地路径
-    * @return com.xuecheng.base.model.RestResponse
+    * @return com.xiaocong.base.model.RestResponse
     * @author Mr.M
     * @date 2022/9/13 15:50
     */
@@ -75,7 +75,7 @@ public interface MediaFileService {
      * @param fileMd5  文件md5
      * @param chunkTotal 分块总和
      * @param uploadFileParamsDto 文件信息
-     * @return com.xuecheng.base.model.RestResponse
+     * @return com.xiaocong.base.model.RestResponse
      * @author Mr.M
      * @date 2022/9/13 15:56
      */
@@ -86,4 +86,5 @@ public interface MediaFileService {
 
     public boolean addFileToMinIo(String localFilePath, String mimeType, String bucket, String objectName);
 
+    MediaFiles getFileById(String mediaId);
 }

@@ -3,6 +3,7 @@ package com.xiaocong.content.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaocong.base.exception.zxstException;
+import com.xiaocong.base.model.RestResponse;
 import com.xiaocong.content.mapper.TeachplanMapper;
 import com.xiaocong.content.mapper.TeachplanMediaMapper;
 import com.xiaocong.content.model.dto.BindTeachplanMediaDto;
@@ -36,6 +37,7 @@ public class TeachplanServiceImpl extends ServiceImpl<TeachplanMapper, Teachplan
 
     @Autowired
     TeachplanMapper teachplanMapper;
+
     public List<TeachplanDto> findTeachTree(long courseId) {
         return baseMapper.selectTreeNodes(courseId);
     }
@@ -135,11 +137,11 @@ public class TeachplanServiceImpl extends ServiceImpl<TeachplanMapper, Teachplan
         //教学计划id
         Long teachplanId = bindTeachplanMediaDto.getTeachplanId();
         Teachplan teachplan = teachplanMapper.selectById(teachplanId);
-        if(teachplan==null){
+        if (teachplan == null) {
             zxstException.cast("教学计划不存在");
         }
         Integer grade = teachplan.getGrade();
-        if(grade!=2){
+        if (grade != 2) {
             zxstException.cast("只允许第二级教学计划绑定媒资文件");
         }
         //课程id
@@ -161,5 +163,18 @@ public class TeachplanServiceImpl extends ServiceImpl<TeachplanMapper, Teachplan
 
 
         return teachplanMedia;
+    }
+
+    @Override
+    public RestResponse removeTeachPlanMedia(Long teachPlanId, String mediaId) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("teachplan_id", teachPlanId);
+        queryWrapper.eq("media_id", mediaId);
+        int count = teachplanMediaMapper.delete(queryWrapper);
+        if (count > 0) {
+            return new RestResponse(200, "删除成功");
+        } else {
+            return new RestResponse(500, "删除成功");
+        }
     }
 }

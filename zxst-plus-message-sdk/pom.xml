@@ -3,33 +3,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>zxst-plus-media</artifactId>
+        <artifactId>zxst-plus-parent</artifactId>
         <groupId>com.xiaocong</groupId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../zxst-plus-parent</relativePath>
     </parent>
-    <artifactId>zxst-plus-media-service</artifactId>
-    <name>zxst-plus-media-service</name>
-    <description>zxst-plus-media-service</description>
+    <artifactId>zxst-plus-message-sdk</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.xiaocong</groupId>
-            <artifactId>zxst-plus-media-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <!-- MySQL 驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-
-        <!-- mybatis plus的依赖 -->
+        <!-- mybatis plus的依�? -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -59,28 +51,14 @@
         </dependency>
 
         <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>8.4.3</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>4.8.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>9.0.73</version>
-        </dependency>
-
-
 
     </dependencies>
 
