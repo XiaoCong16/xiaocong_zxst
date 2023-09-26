@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: search
+  cloud:
+    nacos:
+      server-addr: 175.178.151.17:8848
+      discovery:
+        namespace: zxst-dev
+        group: xiaocong_zxst
+      config:
+        namespace: zxst-dev
+        group: xiaocong_zxst
+        file-extension: yaml
+        refresh-enabled: true
+        shared-configs:
+          - data-id: swagger-${spring.profiles.active}.yaml
+            group: zxst-plus-common
+            refresh: true
+          - data-id: logging-${spring.profiles.active}.yaml
+            group: zxst-plus-common
+            refresh: true
+
+  profiles:
+    active: dev
